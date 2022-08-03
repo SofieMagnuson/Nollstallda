@@ -4,42 +4,27 @@ using UnityEngine;
 
 public class player_movement : MonoBehaviour
 {
-    public float moveSpeed = 2f;
-    public Rigidbody rb;
-    Vector3 movement;
-    public SpriteRenderer SR;
-    public bool buisness;
-    public GameObject buisnessC;
+
+    //3DMovement
+    private float speed;
+    public Transform target;
+
 
     // Start is called before the first frame update
     void Start()
     {
-
+        //3DMovement
+        speed = 3f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        movement.x = Input.GetAxis("Horizontal");
-        movement.y = Input.GetAxis("Vertical");
-        if (Input.GetAxisRaw("Horizontal") == 1)
-        {
-            SR.flipX = false;
-        }
-        if (Input.GetAxisRaw("Horizontal") == -1)
-        {
-            SR.flipX = true;
-        }
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+        Vector3 movement = (transform.right * x) + (transform.forward * z);
+        transform.position += movement * speed * Time.deltaTime;
 
-        if (buisness)
-        {
-            buisnessC.gameObject.SetActive(true);
-        }
-    }
-
-    void FixedUpdate()
-    {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
 
 }
