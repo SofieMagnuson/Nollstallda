@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Sandwich
+  - Pills
+  - Wardrobe
+  - Shower
+  - Zink
+  - Toilett
+  - Door
   layers:
   - Default
   - TransparentFX
