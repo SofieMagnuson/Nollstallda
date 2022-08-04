@@ -9,8 +9,10 @@ TagManager:
   - Wardrobe
   - Shower
   - Zink
-  - Toilett
   - Door
+  - Exit
+  - Toilet
+  - Buisness
   layers:
   - Default
   - TransparentFX
