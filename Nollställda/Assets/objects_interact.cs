@@ -8,7 +8,7 @@ public class objects_interact : MonoBehaviour
 {
     public bool dressed, checkPills, eatSandwich, closeSandwich, closeWardrobe, closeToilet, closeZink, closeShower, closePills, pee, showering, washing, peedone, exitOn;
     public GameObject  wardrobe, pills, story, sandwich, toilet, shower, zink, exit, clothes, test;
-    public int CountdownTime, points, currentPoints;
+    public int CountdownTime, points, currentPoints, currentTimer;
     public player_movement PL;
     public Text pointsText, timerText;
 
@@ -171,11 +171,6 @@ public class objects_interact : MonoBehaviour
 
     }
 
-    public void CheckCurrentPoints()
-    {
-        currentPoints = points;
-    }
-
     void DelayTime()
     {
         if (pee || showering || washing || eatSandwich)
@@ -267,6 +262,16 @@ public class objects_interact : MonoBehaviour
         {
             closeWardrobe = false;
         }
+    }
+
+    public void CheckCurrentPoints()
+    {
+        currentPoints = points;
+    }
+
+    public void CheckCurrentTimer()
+    {
+        PlayerPrefs.SetFloat("currentTimer", timer);
     }
     void LoadNextScene()
     {
