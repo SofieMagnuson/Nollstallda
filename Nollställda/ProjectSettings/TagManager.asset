@@ -14,6 +14,9 @@ TagManager:
   - Toilet
   - Buisness
   - ground
+  - Car
+  - Crowd
+  - Obstacle
   layers:
   - Default
   - TransparentFX
