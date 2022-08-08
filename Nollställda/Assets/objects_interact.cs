@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class objects_interact : MonoBehaviour
 {
     public bool dressed, checkPills, eatSandwich, closeSandwich, closeWardrobe, closeToilet, closeZink, closeShower, closePills, pee, showering, washing, peedone, exitOn;
-    public GameObject  wardrobe, pills, story, sandwich, toilet, shower, zink, exit, clothes, test;
+    public GameObject  wardrobe, pills, story, sandwich, toilet, shower, zink, exit, clothes, test, zinkB, showerB;
     public int CountdownTime;
     public player_movement PL;
     //public Text  timerText;
@@ -120,11 +120,18 @@ public class objects_interact : MonoBehaviour
             if (Physics.Raycast(ray, out hit) && !showering)
             {
                 if (hit.collider.tag == "Shower")
+                {
                     showering = true;
                     if (showering)
                     {
-                    checkPoints.currentPoints += 1;
-                    checkPoints.currentTimer -= 5;
+                        checkPoints.currentPoints += 1;
+                        checkPoints.currentTimer -= 5;
+                        showerB.gameObject.SetActive(true);
+                    }
+                    if (!showering)
+                    {
+                        showerB.gameObject.SetActive(false);
+                    }
                 }
 
             }
@@ -143,6 +150,11 @@ public class objects_interact : MonoBehaviour
                     {
                         checkPoints.currentPoints += 1;
                         checkPoints.currentTimer -= 5;
+                        zinkB.gameObject.SetActive(true);
+                    }
+                    if(!washing)
+                    {
+                        zinkB.gameObject.SetActive(false);
                     }
                     
                 }
