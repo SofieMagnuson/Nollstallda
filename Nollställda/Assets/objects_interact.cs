@@ -8,53 +8,61 @@ public class objects_interact : MonoBehaviour
 {
     public bool dressed, checkPills, eatSandwich, closeSandwich, closeWardrobe, closeToilet, closeZink, closeShower, closePills, pee, showering, washing, peedone, exitOn;
     public GameObject  wardrobe, pills, story, sandwich, toilet, shower, zink, exit, clothes, test;
-    public int CountdownTime, points, currentPoints;
+    public int CountdownTime;
     public player_movement PL;
-    public Text pointsText, timerText;
-
+    //public Text  timerText;
+    public TextMesh timerText;
     public float timer = 0;
+    public Slider slider;
+    public Gradient gradient;
+    public Image fill;
 
 
     void Start()
     {
-        points = 0;
-        currentPoints = 0;
-        timer = 90f;
+        //timer = 90f;
     }
 
     void Update()
     {
         CheckObjects();
         DelayTime();
-        pointsText.text = points.ToString() + " POINTS";
-        
-        
-        if (timer > 0)
-        {
-            timer -= Time.deltaTime;
-        }
-        else
-        {
-            timer = 0;
-        }
+        int points = checkPoints.currentPoints;
+        slider.value = points;
+        fill.color = gradient.Evaluate(slider.normalizedValue);
 
-        DisplayTime(timer);
 
-    }
+        //int timer = checkPoints.currentTimer;
+        //timerText.text = string.Format("{0:00}:{1:00}");
 
-    void DisplayTime (float timeToDisplay)
-    {
-        if (timeToDisplay < 0)
-        {
-            timeToDisplay = 0;
-        }
 
-        float minutes = Mathf.FloorToInt(timeToDisplay / 60);
-        float seconds = Mathf.FloorToInt(timeToDisplay % 60);
+        //if (timer > 0)
+        //{
+        //    timer -= Time.deltaTime;
+        //}
+        //else
+        //{
+        //    timer = 0;
+        //}
 
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        //DisplayTime(timer);
 
     }
+
+
+    //void DisplayTime (float timeToDisplay)
+    //{
+    //    if (timeToDisplay < 0)
+    //    {
+    //        timeToDisplay = 0;
+    //    }
+
+    //    float minutes = Mathf.FloorToInt(timeToDisplay / 60);
+    //    float seconds = Mathf.FloorToInt(timeToDisplay % 60);
+
+    //    timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+    //}
 
     void CheckObjects()
     {
@@ -81,8 +89,8 @@ public class objects_interact : MonoBehaviour
                 if (hit.collider.tag == "Sandwich")
                 {
                     eatSandwich = true;
-                    points += 1;
-                    timer -= 5;
+                    checkPoints.currentPoints += 1;
+                    checkPoints.currentTimer -= 5;
                     Destroy(sandwich);
                 }
         }
@@ -98,8 +106,8 @@ public class objects_interact : MonoBehaviour
                     pee = true;
                     if (pee)
                     {
-                        points += 1;
-                        timer -= 5;
+                        checkPoints.currentPoints += 1;
+                        checkPoints.currentTimer -= 5;
                     }
                 }
             }
@@ -115,9 +123,9 @@ public class objects_interact : MonoBehaviour
                     showering = true;
                     if (showering)
                     {
-                        points += 1;
-                        timer -= 5;
-                    }
+                    checkPoints.currentPoints += 1;
+                    checkPoints.currentTimer -= 5;
+                }
 
             }
         }
@@ -133,8 +141,8 @@ public class objects_interact : MonoBehaviour
                     washing = true;
                     if (washing)
                     {
-                        points += 1;
-                        timer -= 5;
+                        checkPoints.currentPoints += 1;
+                        checkPoints.currentTimer -= 5;
                     }
                     
                 }
@@ -171,11 +179,6 @@ public class objects_interact : MonoBehaviour
 
     }
 
-    public void CheckCurrentPoints()
-    {
-        currentPoints = points;
-    }
-
     void DelayTime()
     {
         if (pee || showering || washing || eatSandwich)
@@ -186,18 +189,18 @@ public class objects_interact : MonoBehaviour
 
     public void CheckBuisness()
     {
-        points += 10;
-        timer -= 30;
+        checkPoints.currentPoints += 10;
+        checkPoints.currentTimer -= 30;
     }
     public void CheckCasual()
     {
-        points += 5;
-        timer -= 15;
+        checkPoints.currentPoints += 5;
+        checkPoints.currentTimer -= 15;
     }
     public void CheckSweat()
     {
-        points += 2;
-        timer -= 5;
+        checkPoints.currentPoints += 1;
+        checkPoints.currentTimer -= 5;
     }
 
     public void FreezeDone()
@@ -268,6 +271,7 @@ public class objects_interact : MonoBehaviour
             closeWardrobe = false;
         }
     }
+
     void LoadNextScene()
     {
         //Add wait 5 sec and freeze 5 sec
