@@ -19,7 +19,7 @@ public class animationScript : MonoBehaviour
     }
     public void animTimerOff()
     {
-            animController.SetBool("animClock", false);
+        animController.SetBool("animClock", false);
     }
 
     public void animShower()
@@ -29,5 +29,16 @@ public class animationScript : MonoBehaviour
     public void animShowerDone()
     {
         animController.SetBool("ShowerAnim", false);
+    }
+
+    public void animWalking ()
+    {
+        Debug.Log("Walking");
+        animController.SetBool("Walking", true);
+    }
+    public void animIdle()
+    {
+        Debug.Log("Still");
+        animController.SetBool("Walking", false);
     }
 }

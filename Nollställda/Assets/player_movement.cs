@@ -11,15 +11,19 @@ public class player_movement : MonoBehaviour
     float currentTime = 0f;
     public bool doneFreeze, timeRunning;
     public objects_interact OI;
+    public animationScript AS, PA;
+    [SerializeField] LayerMask _aimLayerMask;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        GameObject.FindGameObjectWithTag("Music").GetComponent<Music>().PlayMusic();
         //3DMovement
         speed = 5f;
         countdown = 3f;
         currentTime = countdown;
+
     }
 
     // Update is called once per frame
@@ -30,6 +34,38 @@ public class player_movement : MonoBehaviour
         Vector3 movement = (transform.right * x) + (transform.forward * z);
         transform.position += movement * speed * Time.deltaTime;
 
+        if (Input.GetKeyDown(KeyCode.W))
+            {
+                PA.animWalking();
+            }
+        if (Input.GetKeyDown(KeyCode.S))
+            {
+                PA.animWalking();
+            }
+        if (Input.GetKeyDown(KeyCode.D))
+            {
+                PA.animWalking();
+            }
+        if (Input.GetKeyDown(KeyCode.A))
+            {
+                PA.animWalking();
+            }
+        if (Input.GetKeyUp(KeyCode.W))
+            {
+                PA.animIdle();
+            }
+        if (Input.GetKeyUp(KeyCode.S))
+            {
+                PA.animIdle();
+            }
+        if (Input.GetKeyUp(KeyCode.D))
+            {
+                PA.animIdle();
+            }
+        if (Input.GetKeyUp(KeyCode.A))
+            {
+                PA.animIdle();
+            }
     }
 
     public void Freeze()
@@ -52,6 +88,7 @@ public class player_movement : MonoBehaviour
 
         }
     }
+
     public void FreezeON()
     {
         speed = 0f;

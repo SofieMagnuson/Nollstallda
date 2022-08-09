@@ -6,7 +6,5 @@ using UnityEngine.SceneManagement;
 
 public class checkPoints : MonoBehaviour
 {
-    public static int currentPoints;
-
-
+    public static int currentPoints, dressed;
 }

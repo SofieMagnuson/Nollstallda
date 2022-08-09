@@ -17,6 +17,9 @@ TagManager:
   - Car
   - Crowd
   - Obstacle
+  - Apotek
+  - Music
+  - Office
   layers:
   - Default
   - TransparentFX
