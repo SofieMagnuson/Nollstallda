@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class objects_interact : MonoBehaviour
 {
-    public bool dressed, checkPills, eatSandwich, closeSandwich, closeWardrobe, closeToilet, closeZink, closeShower, closePills, pee, showering, washing, peedone, exitOn, playedSound;
-    public GameObject  pills, story, sandwich, toilet, shower, zink, exit, clothes, test, zinkB, showerB, wardrobeM, sandM, toiletM, zinkM, showerM, doorM, blurred, playerBody, fade;
+    public bool dressed, checkPills, eatSandwich, closeSandwich, closeWardrobe, closeToilet, closeZink, closeShower, closePills, pee, showering, washing, peedone, exitOn, playedSound, casual, business, sweats;
+    public GameObject  pills, story, sandwich, toilet, shower, zink, exit, clothes, test, zinkB, showerB, wardrobeM, sandM, toiletM, zinkM, showerM, doorM, blurred, playerBody, fade, inShowerB, inShowerC, inShowerS, inShower;
     public int CountdownTime;
     public player_movement PL;
     public float timer, timerLose, timerAnim;
@@ -30,6 +30,8 @@ public class objects_interact : MonoBehaviour
     {
         CheckObjects();
         DelayTime();
+        CheckTime();
+
         int points = checkPoints.currentPoints;
         slider.value = points;
         fill.color = gradient.Evaluate(slider.normalizedValue);
@@ -43,7 +45,7 @@ public class objects_interact : MonoBehaviour
         else
         {
             timer = 0;
-            Loose();
+            Lose();
         }
 
     }
@@ -93,6 +95,7 @@ public class objects_interact : MonoBehaviour
             {
                 if (hit.collider.tag == "Toilet")
                 {
+                    Debug.Log("Toilet");
                     pee = true;
                     toiletM.gameObject.SetActive(false);
                     if (pee)
@@ -118,7 +121,7 @@ public class objects_interact : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit) && !showering)
             {
-                if (hit.collider.tag == "Shower")
+                if (hit.collider.tag == "Shower" && !washing)
                 {
                     showering = true;
                     if (showering)
@@ -130,7 +133,10 @@ public class objects_interact : MonoBehaviour
                         showerSound.Play();
                         AS.animTimer();
                         AS.animShower();
-
+                        inShower.gameObject.SetActive(false);
+                        inShowerB.gameObject.SetActive(false);
+                        inShowerC.gameObject.SetActive(false);
+                        inShowerS.gameObject.SetActive(false);
                     }
                     if (!showering)
                     {
@@ -148,7 +154,7 @@ public class objects_interact : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit) && !washing)
             {
-                if (hit.collider.tag == "Zink")
+                if (hit.collider.tag == "Zink" && !showering)
                 {
                     washing = true;
                     if (washing)
@@ -225,29 +231,51 @@ public class objects_interact : MonoBehaviour
         }
     }
 
+    void CheckTime()
+    {
+        if (timer < 50)
+        {
+            checkPoints.currentPoints -= 1;
+        }
+        if (timer < 30)
+        {
+            checkPoints.currentPoints -= 3;
+        }
+        if (timer < 10)
+        {
+            checkPoints.currentPoints -= 5;
+        }
+    }
+
     public void CheckBuisness()
     {
-        checkPoints.currentPoints += 10;
+        checkPoints.currentPoints += 30;
+        checkPoints.dressed += 1;
         timer -= 30;
         wardrobeSound.Play();
         Destroy(wardrobeM);
         AS.animTimer();
+        business = true;
     }
     public void CheckCasual()
     {
-        checkPoints.currentPoints += 5;
+        checkPoints.currentPoints += 15;
         timer -= 15;
         wardrobeSound.Play();
         Destroy(wardrobeM);
         AS.animTimer();
+        checkPoints.dressed += 2;
+        casual = true;
     }
     public void CheckSweat()
     {
-        checkPoints.currentPoints += 1;
+        checkPoints.currentPoints += 5;
         timer -= 5;
         wardrobeSound.Play();
         Destroy(wardrobeM);
         AS.animTimer();
+        checkPoints.dressed += 3;
+        sweats = true;
     }
 
     public void FreezeDone()
@@ -262,6 +290,19 @@ public class objects_interact : MonoBehaviour
         blurred.gameObject.SetActive(false);
         AS.animTimerOff();
         AS.animShowerDone();
+        if (casual)
+        {
+            inShowerC.gameObject.SetActive(true);
+        }
+        if (business)
+        {
+            inShowerB.gameObject.SetActive(true);
+        }
+        if (sweats)
+        {
+            inShowerS.gameObject.SetActive(true);
+        }
+
     }
 
     private void OnTriggerEnter(Collider col)
@@ -342,7 +383,7 @@ public class objects_interact : MonoBehaviour
         }
 
     }
-    void Loose()
+    void Lose()
     {
         fade.SetActive(true);
         if (timerLose > 0)
