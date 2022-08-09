@@ -23,17 +23,23 @@ public class totalScore : MonoBehaviour
         timer -= Time.deltaTime;
         if (timer < 0)
         {
-            if (points > 12)
+            if (points >= 12)
             {
                 good.gameObject.SetActive(true);
+                bad.gameObject.SetActive(false);
+                medium.gameObject.SetActive(false) ;
             }
-            if (points > 8)
+            if (points >= 8)
             {
                 medium.gameObject.SetActive(true);
+                good.gameObject.SetActive(false);
+                bad.gameObject.SetActive(false);
             }
-            if (points > 0)
+            if (points >= 0)
             {
                 bad.gameObject.SetActive(true);
+                medium.gameObject.SetActive(false);
+                good.gameObject.SetActive(false);
             }
         }
     }

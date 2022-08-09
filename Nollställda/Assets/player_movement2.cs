@@ -12,8 +12,8 @@ public class player_movement2 : MonoBehaviour
     public Slider sliderHP, sliderSweat;
     public Gradient gradient;
     public Image fillHP, fillSweat;
-    public GameObject sweatLittle, sweatLot, buisness, casual, sweats;
-    public int sweatMuch, sweatPoints;
+    public GameObject sweatLittle, sweatLot, buisness, casual, sweats, apotekG;
+    public int sweatMuch, sweatPoints, points;
     public float timerSweat = 0, timer;
     public Text timerText;
 
@@ -78,7 +78,6 @@ public class player_movement2 : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             
-            //currentTime += 1 * Time.deltaTime;
             if (!crowd)
             {
                 running = true;
@@ -86,27 +85,18 @@ public class player_movement2 : MonoBehaviour
                 if (running)
                 {
                     currentTime += Time.deltaTime;
-                }
-                if (currentTime > 3)
-                {
-                    sweatPoints += 3;
-                }  
-                if (currentTime > 5)
-                {
-                    sweatPoints += 4;
-                }
-                if (currentTime > 10)
-                {
-                    sweatPoints += 5;
+                    if (currentTime > 3)
+                    {
+                        sweatPoints += 3;
+                        currentTime = 0;
+                    }
                 }
             }
             if (crowd)
             {
                 speed = 5f;
-                if (currentTime > 2)
-                {
-                    sweatPoints += 5;
-                }
+                //sweatPoints += 5;
+
 
             }
         }
@@ -116,7 +106,7 @@ public class player_movement2 : MonoBehaviour
             {
                 running = false;
                 speed = 5f;
-                sweatPoints = 0;
+                //sweatPoints = 0;
                 if (!running)
                 {
                     currentTime = 0;
@@ -125,7 +115,7 @@ public class player_movement2 : MonoBehaviour
             if (crowd)
             {
                 speed = 2f;
-                sweatPoints = 0;
+                //sweatPoints = 0;
             }
         }
 
@@ -138,31 +128,22 @@ public class player_movement2 : MonoBehaviour
                 RB.velocity = new Vector2(RB.velocity.x, 0);
                 RB.AddForce(new Vector2(0, jump), ForceMode.Impulse);
                 isGrounded = false;
-                Debug.Log("Jump");
-
             }
         }
 
 
         //Sweat
-        if (sweatPoints > 3)
+        if (sweatPoints >= 3)
         {
             sweatLittle.gameObject.SetActive(true);
             sweatLot.gameObject.SetActive(true);
-            checkPoints.currentPoints -= 5;
+
 
         }
-        if (sweatPoints > 8)
+        if (sweatPoints >= 8)
         {
             sweatLittle.gameObject.SetActive(false);
             sweatLot.gameObject.SetActive(true);
-            checkPoints.currentPoints -= 10;
-        }
-        if (sweatPoints > 10)
-        {
-            sweatLittle.gameObject.SetActive(false);
-            sweatLot.gameObject.SetActive(true);
-            checkPoints.currentPoints -= 20;
 
         }
         else
@@ -172,46 +153,13 @@ public class player_movement2 : MonoBehaviour
         }
 
 
-        //OnClick
-        if (drugs && Input.GetMouseButton(0))
+        //Apotek
+        if (drugs)
         {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (hit.collider.tag == "Apotek")
-                {
-                    buyingDrugs = true;
-                    if (buyingDrugs)
-                    {
-                        checkPoints.currentPoints += 10;
-                    }
-                    
-                }
-
-            }
+            checkPoints.currentPoints += 10;
+            drugs = false;
+            Destroy(apotekG);
         }
-
-        //if (office && Input.GetMouseButton(0))
-        //{
-        //    RaycastHit hit;
-        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //    if (Physics.Raycast(ray, out hit))
-        //    {
-        //        if (hit.collider.tag == "Office")
-        //        {
-        //            finalScene = true;
-        //            Debug.Log("FInALY");
-        //            if (finalScene)
-        //            {
-        //                SceneManager.LoadScene("Final Scene");
-        //            }
-
-        //        }
-
-        //    }
-        //}
-
 
     }
     void DisplayTime(float timeToDisplay)
@@ -230,17 +178,9 @@ public class player_movement2 : MonoBehaviour
 
     void CheckTime()
     {
-        if (timer < 50)
-        {
-            checkPoints.currentPoints -= 5;
-        }
-        if (timer < 30)
+        if (timer == 10)
         {
             checkPoints.currentPoints -= 10;
-        }
-        if (timer < 10)
-        {
-            checkPoints.currentPoints -= 15;
         }
     }
 
