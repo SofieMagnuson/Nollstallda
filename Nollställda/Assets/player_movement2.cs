@@ -12,7 +12,7 @@ public class player_movement2 : MonoBehaviour
     public Slider sliderHP, sliderSweat;
     public Gradient gradient;
     public Image fillHP, fillSweat;
-    public GameObject sweatLittle, sweatLot, buisness, casual, sweats, nextScene;
+    public GameObject sweatLittle, sweatLot, buisness, casual, sweats;
     public int sweatMuch, sweatPoints;
     public float timerSweat = 0, timer;
     public Text timerText;
@@ -270,7 +270,7 @@ public class player_movement2 : MonoBehaviour
         if (col.gameObject.tag == "Office")
         {
             office = true;
-            nextScene.gameObject.SetActive(true);
+            LoadNextScene();
         }
     }
 
@@ -294,10 +294,10 @@ public class player_movement2 : MonoBehaviour
             office = false;
         }
     }
-    public void LoadScene()
+    public void LoadNextScene()
     {
-        SceneManager.LoadScene("Lose");
-        Debug.Log("load");
+        //Add wait 5 sec and freeze 5 sec
+        SceneManager.LoadScene("LastScene");
     }
 
     void Lose()
